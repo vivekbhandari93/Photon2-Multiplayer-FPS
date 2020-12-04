@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [Header("Connection Status")]
     [SerializeField] Text connectionStatusText;
 
-    [Header("Login UI Panel")]
+    [Header("Login Panel")]
     [SerializeField] InputField playerNameInput;
     [SerializeField] GameObject loginPanel;
 
-    [Header("Game Options UI Panel")]
+    [Header("Game Options Panel")]
     [SerializeField] GameObject gameOptionsPanel;
 
     [Header("Create Room Panel")]
     [SerializeField] GameObject createRoomPanel;
+    [SerializeField] InputField roomNameInput;
+    [SerializeField] InputField maxPlayersInput;
+
 
     [Header("Join Random Room Panel")]
     [SerializeField] GameObject joinRandomRoomPanel;
@@ -56,6 +60,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    public void OnCreateRoomButtonClicked()
+    {
+        string roomName = roomNameInput.text;
+        if (string.IsNullOrEmpty(roomName))
+        {
+            roomName = "Room " + Random.Range(1, 1000);
+        }
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = byte.Parse(maxPlayersInput.text);
+
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+    }
+
+    public void OnCancelButtonClicked()
+    {
+        ActivatePanel(gameOptionsPanel.name);
+    }
+
     #endregion
 
     #region Photon Callbacks
@@ -64,6 +87,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
         ActivatePanel(gameOptionsPanel.name);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined to room, " + PhotonNetwork.CurrentRoom.Name + ".");
+
     }
 
     #endregion
