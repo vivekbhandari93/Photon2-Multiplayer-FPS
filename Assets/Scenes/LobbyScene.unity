@@ -1115,7 +1115,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2110278556}
         m_MethodName: OnLeaveGameButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -4531,7 +4531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1760134790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5208,6 +5208,7 @@ MonoBehaviour:
   playerListPrefab: {fileID: 1252797748048109091, guid: 5dc44bfa7a0d258489acbcd2b912d338,
     type: 3}
   contentInInsideRoomPanel: {fileID: 1396198819}
+  startGameButton: {fileID: 503160507}
   joinRandomRoomPanel: {fileID: 1438516555}
   roomListPanel: {fileID: 2010485768}
   roomListPrefab: {fileID: 841278376669109242, guid: 1b50ba566761f6c42bf8b3c775911a8d,

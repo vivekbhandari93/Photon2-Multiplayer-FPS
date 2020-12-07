@@ -27,6 +27,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] Text roomInfoText;
     [SerializeField] GameObject playerListPrefab;
     [SerializeField] Transform contentInInsideRoomPanel;
+    [SerializeField] GameObject startGameButton;
 
     [Header("Join Random Room Panel")]
     [SerializeField] GameObject joinRandomRoomPanel;
@@ -37,10 +38,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform contentInRoomListPanel;
 
 
-    Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
-    Dictionary<string, GameObject> roomInstancesList = new Dictionary<string, GameObject>();
+    Dictionary<string, RoomInfo> cachedRoomList;
+    Dictionary<string, GameObject> roomInstancesList;
 
-    Dictionary<int, GameObject> playerListGameObjects = new Dictionary<int, GameObject>();
+    Dictionary<int, GameObject> playerListGameObjects;
 
 
     #region Unity Methods
@@ -48,6 +49,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void Start()
     {
         ActivatePanel(loginPanel.name);
+        cachedRoomList = new Dictionary<string, RoomInfo>();
+        roomInstancesList = new Dictionary<string, GameObject>();
     }
 
     
@@ -112,6 +115,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ActivatePanel(gameOptionsPanel.name);
     }
 
+    public void OnLeaveGameButtonClicked()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
 
     #endregion
 
@@ -128,10 +135,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
+        if(playerListGameObjects == null)
+        {
+            playerListGameObjects = new Dictionary<int, GameObject>();
+        }
+
         ActivatePanel(insideRoomPanel.name);
 
         DisplayPlayerList();
 
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            startGameButton.SetActive(true);
+        }
+        else
+        {
+            startGameButton.SetActive(false);
+        }
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -190,6 +210,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         Destroy(playerListGameObjects[otherPlayer.ActorNumber]);
         playerListGameObjects.Remove(otherPlayer.ActorNumber);
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            startGameButton.SetActive(true);
+        }
+        else
+        {
+            startGameButton.SetActive(false);
+        }
     }
 
 
@@ -197,12 +226,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnLeftRoom();
 
-        ActivatePanel(gameOptionsPanel.name);
-        foreach (GameObject playerInstance in playerListGameObjects.Values)
+        foreach (GameObject playerGameObject in playerListGameObjects.Values)
         {
-            Destroy(playerInstance);
+            Destroy(playerGameObject);
         }
         playerListGameObjects.Clear();
+        playerListGameObjects = null;
+
+        ActivatePanel(gameOptionsPanel.name);
     }
 
     #endregion
@@ -302,6 +333,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             {
                 playerInstance.transform.Find("PlayerIndicator").gameObject.SetActive(false);
             }
+
+            playerListGameObjects.Add(player.ActorNumber, playerInstance);
         }
     }
 
