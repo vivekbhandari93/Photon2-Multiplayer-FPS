@@ -1480,8 +1480,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnStartButtonClicked
+      - m_Target: {fileID: 2110278556}
+        m_MethodName: OnStartGameButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
