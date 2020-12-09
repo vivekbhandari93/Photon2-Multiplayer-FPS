@@ -16,7 +16,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public float smoothTime = 5f;
         public bool lockCursor = true;
 
-        public Vector2 lookInputAxis;
+        public Vector2 lookInputAxis = Vector2.zero;
 
         private Quaternion m_CharacterTargetRot;
         private Quaternion m_CameraTargetRot;

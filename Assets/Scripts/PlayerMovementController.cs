@@ -6,8 +6,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] Joystick joystick;
-    [SerializeField] FixedTouchField fixedTouchField;
+    public Joystick joystick;
+    public FixedTouchField fixedTouchField;
 
     private RigidbodyFirstPersonController rigidbodyFirstPersonController;
 

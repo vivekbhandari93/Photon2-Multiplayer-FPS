@@ -911,7 +911,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: -5028652526796233529}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &-5028652526796233529
@@ -942,6 +942,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b4de6065934f64084ecf29537a5ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerControlsUI: {fileID: 7599333800276126968, guid: 781b03aea5b089b468c17fc4951591ce,
+    type: 3}
+  fpsCamera: {fileID: 4823139504048853161}
 --- !u!54 &9178858588536842381
 Rigidbody:
   m_ObjectHideFlags: 0
