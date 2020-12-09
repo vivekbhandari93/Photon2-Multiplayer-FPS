@@ -9,12 +9,13 @@ public class PlayerMovementController : MonoBehaviour
     public Joystick joystick;
     public FixedTouchField fixedTouchField;
 
-    private RigidbodyFirstPersonController rigidbodyFirstPersonController;
-
+    RigidbodyFirstPersonController rigidbodyFirstPersonController;
+    Animator animator;
 
     private void Start()
     {
         rigidbodyFirstPersonController = GetComponent<RigidbodyFirstPersonController>();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -23,5 +24,8 @@ public class PlayerMovementController : MonoBehaviour
         rigidbodyFirstPersonController.joystickInputAxis.y = joystick.Vertical;
 
         rigidbodyFirstPersonController.mouseLook.lookInputAxis = fixedTouchField.TouchDist;
+
+        animator.SetFloat("horizontal", joystick.Horizontal);
+        animator.SetFloat("vertical", joystick.Vertical);
     }
 }
