@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
-public class MobileFPSGameManager : MonoBehaviour
+
+public class MobileFPSGameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject playerPrefab;
+    Shooting shooting;
 
     void Start()
     {
@@ -15,7 +18,8 @@ public class MobileFPSGameManager : MonoBehaviour
             {
                 float randomPoint = Random.Range(-10f, 10f);
 
-                PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(randomPoint, 0f, randomPoint), Quaternion.identity);
+                GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(randomPoint, 0f, randomPoint), Quaternion.identity);
+                shooting = playerInstance.GetComponent<Shooting>();
             }
             else
             {
@@ -27,6 +31,19 @@ public class MobileFPSGameManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (shooting && shooting.isDead)
+        {
+
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Disconnect();
+        }
+    }
+
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        SceneManager.LoadScene(0);
     }
 }
