@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 458661502}
   - component: {fileID: 458661504}
   - component: {fileID: 458661503}
+  - component: {fileID: 773381483772214527}
   m_Layer: 0
   m_Name: Health Bar
   m_TagString: Untagged
@@ -149,6 +150,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &773381483772214527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458661501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e40833a36bfb64482b2eb32e029683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1509157994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,7 +1501,6 @@ MonoBehaviour:
   fpsCamera: {fileID: 4587928126046421195}
   healthPoints: 100
   currentHealth: 0
-  healthBar: {fileID: 458661503}
   isDead: 0
 --- !u!1 &8151689848020531151
 GameObject:

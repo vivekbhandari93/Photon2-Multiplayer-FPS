@@ -14,6 +14,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     PlayerMovementController playerMovementController;
     Shooting shooting;
 
+    GameObject playerControlsUIInstance;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {   
-            GameObject playerControlsUIInstance = Instantiate(playerControlsUI);
+            playerControlsUIInstance = Instantiate(playerControlsUI);
 
             playerControlsUIInstance.transform.Find("Fire Button").GetComponent<Button>().onClick.AddListener(() => shooting.Fire());
 
@@ -43,5 +44,11 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     private void Start()
     {
         GetComponentInChildren<TextMeshProUGUI>().text = photonView.Owner.NickName;
+        playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+    }
+
+    private void Update()
+    {
+        playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
     }
 }
