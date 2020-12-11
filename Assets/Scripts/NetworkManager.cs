@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -80,13 +81,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void OnCreateRoomButtonClicked()
     {
-        string roomName = roomNameInput.text;
+        string roomName = roomNameInput.text.Trim();
         if (string.IsNullOrEmpty(roomName))
         {
             roomName = "Room " + Random.Range(1, 1000);
         }
 
         RoomOptions roomOptions = new RoomOptions();
+
+        if (!maxPlayersInput.text.All(char.IsDigit) || string.IsNullOrEmpty(maxPlayersInput.text.Trim())) { maxPlayersInput.text = "20"; }
+        else if (double.Parse(maxPlayersInput.text) > 20 || double.Parse(maxPlayersInput.text) < 1) { maxPlayersInput.text = "20"; }
         roomOptions.MaxPlayers = byte.Parse(maxPlayersInput.text);
 
         PhotonNetwork.CreateRoom(roomName, roomOptions);
