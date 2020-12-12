@@ -15,7 +15,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     [Header("Health Parameters")]
     [SerializeField] float healthPoints = 100f;
     [SerializeField] float currentHealth;
-    HealthBar[] healthBars;
+    HealthBar healthBar;
 
 
     public bool isDead = false;
@@ -23,7 +23,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     private void Start()
     {
         currentHealth = healthPoints;
-        healthBars = FindObjectsOfType<HealthBar>();
+        healthBar = FindObjectOfType<HealthBar>();
         UpdateHealthBar();
     }
 
@@ -60,12 +60,9 @@ public class Shooting : MonoBehaviourPunCallbacks
 
     private void UpdateHealthBar()
     {
-        foreach(HealthBar healthBar in healthBars)
+        if (photonView.IsMine)
         {
-            if (photonView.IsMine)
-            {
-                healthBar.GetComponent<Image>().fillAmount = currentHealth / healthPoints;
-            }
+            healthBar.transform.GetComponent<Image>().fillAmount = currentHealth / healthPoints;
         }
     }
 

@@ -79,6 +79,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+
+    public void OnExitButtonClicked()
+    {
+        Application.Quit();
+    }
+
+
     public void OnCreateRoomButtonClicked()
     {
         string roomName = roomNameInput.text.Trim();
@@ -196,7 +203,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
         
-        roomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " + "Players/Max Players: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
+        roomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " Players/Max Players: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
 
         GameObject playerInstance = Instantiate(playerListPrefab);
         playerInstance.transform.SetParent(contentInInsideRoomPanel.transform);

@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
@@ -44,11 +45,35 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     private void Start()
     {
         GetComponentInChildren<TextMeshProUGUI>().text = photonView.Owner.NickName;
+        if (!playerControlsUIInstance) { return; }
+
         playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+        playerControlsUIInstance.transform.Find("Quit Button").GetComponent<Button>().onClick.AddListener(()=>OnQuitButtonClicked());
     }
+
 
     private void Update()
     {
+        if (!playerControlsUIInstance) { return; }
+
         playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+    }
+
+
+    private void OnQuitButtonClicked()
+    {
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Disconnect();
+        }
+    }
+
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        SceneManager.LoadScene(0);
     }
 }

@@ -19,7 +19,7 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
                 float randomPointPosX = Random.Range(-40f, 40f);
                 float randomPointPosZ = Random.Range(-40f, 40f);
 
-                GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(randomPointPosX, 0f, randomPointPosZ), Quaternion.identity);
+                GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(randomPointPosX, 10f, randomPointPosZ), Quaternion.identity);
                 shooting = playerInstance.GetComponent<Shooting>();
             }
             else
