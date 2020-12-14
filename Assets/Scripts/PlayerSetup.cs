@@ -26,7 +26,8 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         {   
             playerControlsUIInstance = Instantiate(playerControlsUI);
 
-            playerControlsUIInstance.transform.Find("Fire Button").GetComponent<Button>().onClick.AddListener(() => shooting.Fire());
+            playerControlsUIInstance.transform.Find("Fire Button Right").GetComponent<Button>().onClick.AddListener(() => shooting.Fire());
+            playerControlsUIInstance.transform.Find("Fire Button Left").GetComponent<Button>().onClick.AddListener(() => shooting.Fire());
 
             playerMovementController.joystick = playerControlsUIInstance.transform.Find("Fixed Joystick").GetComponent<Joystick>();
             playerMovementController.fixedTouchField = playerControlsUIInstance.transform.Find("Rotation Touch Field").GetComponent<FixedTouchField>();

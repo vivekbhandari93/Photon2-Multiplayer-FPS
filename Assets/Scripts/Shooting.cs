@@ -18,6 +18,8 @@ public class Shooting : MonoBehaviourPunCallbacks
     HealthBar healthBar;
     public bool isDead = false;
 
+    [Header("Particles VFX")]
+    [SerializeField] ParticleSystem hitVFX; 
 
     private void Start()
     {
@@ -35,9 +37,9 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             if(hit.collider.CompareTag("Player") && !hit.collider.GetComponent<PhotonView>().IsMine)
             {
+                Instantiate(hitVFX, hit.point, Quaternion.LookRotation(hit.normal));
                 hit.collider.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
             }
-
         }
     }
 
@@ -46,7 +48,6 @@ public class Shooting : MonoBehaviourPunCallbacks
     public void TakeDamage(float damage, PhotonMessageInfo info)
     {
         currentHealth -= damage;
-
         UpdateHealthBar();
 
         if (currentHealth <= Mathf.Epsilon)

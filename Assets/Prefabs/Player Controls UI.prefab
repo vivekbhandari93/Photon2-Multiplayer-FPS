@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 472794335}
   - component: {fileID: 472794334}
   m_Layer: 5
-  m_Name: Fire Button
+  m_Name: Fire Button Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 8828902857526897297}
   - component: {fileID: 3512365270032326228}
   m_Layer: 5
-  m_Name: Fire Button (1)
+  m_Name: Fire Button Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

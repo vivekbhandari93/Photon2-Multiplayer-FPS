@@ -1339,6 +1339,7 @@ MonoBehaviour:
   healthPoints: 100
   currentHealth: 0
   isDead: 0
+  hitVFX: {fileID: 6419178080126038289, guid: 7ea23caac7b45a04da2aa1cba78e3df8, type: 3}
 --- !u!1 &8151689848020531151
 GameObject:
   m_ObjectHideFlags: 0

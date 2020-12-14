@@ -36,7 +36,7 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
         {
 
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Disconnect();
+            //PhotonNetwork.Disconnect();
         }
     }
 
