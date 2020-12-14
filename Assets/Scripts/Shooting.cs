@@ -16,9 +16,8 @@ public class Shooting : MonoBehaviourPunCallbacks
     [SerializeField] float healthPoints = 100f;
     [SerializeField] float currentHealth;
     HealthBar healthBar;
-
-
     public bool isDead = false;
+
 
     private void Start()
     {
@@ -47,7 +46,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     public void TakeDamage(float damage, PhotonMessageInfo info)
     {
         currentHealth -= damage;
-        
+
         UpdateHealthBar();
 
         if (currentHealth <= Mathf.Epsilon)
@@ -55,6 +54,8 @@ public class Shooting : MonoBehaviourPunCallbacks
             Die();
             Debug.Log(info.Sender.NickName + " killed " + info.photonView.Owner.NickName + ".");
         }
+
+        
     }
 
 

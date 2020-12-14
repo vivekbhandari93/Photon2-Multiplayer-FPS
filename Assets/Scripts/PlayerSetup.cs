@@ -45,6 +45,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     private void Start()
     {
         GetComponentInChildren<TextMeshProUGUI>().text = photonView.Owner.NickName;
+
         if (!playerControlsUIInstance) { return; }
 
         playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
@@ -64,8 +65,9 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
+            
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Disconnect();
+            //PhotonNetwork.Disconnect();
         }
     }
 
