@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class MobileFPSGameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject playerPrefab;
-    Shooting shooting;
 
     void Start()
     {
@@ -20,7 +19,8 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
                 float randomPointPosZ = Random.Range(-40f, 40f);
 
                 GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(randomPointPosX, 80f, randomPointPosZ), Quaternion.identity);
-                shooting = playerInstance.GetComponent<Shooting>();
+
+                FindObjectOfType<Canvas>().transform.Find("Quit Button").GetComponent<Button>().onClick.AddListener(()=> OnQuitButtonClicked());
             }
             else
             {
@@ -29,22 +29,19 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-
-    void Update()
+    private void OnQuitButtonClicked()
     {
-        if (shooting && shooting.isDead)
-        {
-
-            PhotonNetwork.LeaveRoom();
-            //PhotonNetwork.Disconnect();
-        }
+        Invoke("LeaveRoom", 1f);
     }
 
 
+    private void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
     public override void OnLeftRoom()
     {
-        base.OnLeftRoom();
-
         SceneManager.LoadScene(0);
     }
 }

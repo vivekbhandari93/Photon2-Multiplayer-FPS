@@ -28,11 +28,14 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
 
             playerControlsUIInstance.transform.Find("Fire Button Right").GetComponent<Button>().onClick.AddListener(() => shooting.Fire());
             playerControlsUIInstance.transform.Find("Fire Button Left").GetComponent<Button>().onClick.AddListener(() => shooting.Fire());
+            playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
 
             playerMovementController.joystick = playerControlsUIInstance.transform.Find("Fixed Joystick").GetComponent<Joystick>();
             playerMovementController.fixedTouchField = playerControlsUIInstance.transform.Find("Rotation Touch Field").GetComponent<FixedTouchField>();
 
+            
             fpsCamera.enabled = true;
+
         }
         else
         {
@@ -42,15 +45,9 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         }
     }
 
-
     private void Start()
     {
         GetComponentInChildren<TextMeshProUGUI>().text = photonView.Owner.NickName;
-
-        if (!playerControlsUIInstance) { return; }
-
-        playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
-        playerControlsUIInstance.transform.Find("Quit Button").GetComponent<Button>().onClick.AddListener(()=>OnQuitButtonClicked());
     }
 
 
@@ -59,24 +56,5 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         if (!playerControlsUIInstance) { return; }
 
         playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
-    }
-
-
-    private void OnQuitButtonClicked()
-    {
-        if (photonView.IsMine)
-        {
-            
-            PhotonNetwork.LeaveRoom();
-            //PhotonNetwork.Disconnect();
-        }
-    }
-
-
-    public override void OnLeftRoom()
-    {
-        base.OnLeftRoom();
-
-        SceneManager.LoadScene(0);
     }
 }

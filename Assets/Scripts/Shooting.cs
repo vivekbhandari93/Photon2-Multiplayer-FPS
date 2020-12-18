@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-
+using UnityEngine.SceneManagement;
 
 public class Shooting : MonoBehaviourPunCallbacks
 {
@@ -15,16 +14,16 @@ public class Shooting : MonoBehaviourPunCallbacks
     [Header("Health Parameters")]
     [SerializeField] float healthPoints = 100f;
     [SerializeField] float currentHealth;
-    HealthBar healthBar;
-    public bool isDead = false;
+    Slider healthBar;
 
     [Header("Particles VFX")]
-    [SerializeField] ParticleSystem hitVFX; 
+    [SerializeField] ParticleSystem hitVFX;
 
     private void Start()
     {
         currentHealth = healthPoints;
-        healthBar = FindObjectOfType<HealthBar>();
+        
+        healthBar = FindObjectOfType<HealthBar>().GetComponent<Slider>();
         UpdateHealthBar();
     }
 
@@ -32,6 +31,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     public void Fire()
     {
         Ray ray = fpsCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, weaponRange))
         {
@@ -47,24 +47,52 @@ public class Shooting : MonoBehaviourPunCallbacks
     [PunRPC]
     public void TakeDamage(float damage, PhotonMessageInfo info)
     {
+        //ToggleHurtRedImage();
         currentHealth -= damage;
         UpdateHealthBar();
 
         if (currentHealth <= Mathf.Epsilon)
         {
             Die();
-            Debug.Log(info.Sender.NickName + " killed " + info.photonView.Owner.NickName + ".");
         }
-
-        
     }
 
+    /*
+    private void ToggleHurtRedImage()
+    {
+        if (photonView.IsMine)
+        {
+            StartCoroutine(FadeOut(0.5f));
+            StartCoroutine(FadeIn(0.3f));
+        }
+    }
+
+
+    IEnumerator FadeOut(float time)
+    {
+        while (hurtRedImage.alpha <= 1f)
+        {
+            hurtRedImage.alpha += Time.deltaTime / time;
+            yield return null;
+        }
+    }
+
+
+    IEnumerator FadeIn(float time)
+    {
+        while (hurtRedImage.alpha >= Mathf.Epsilon)
+        {
+            hurtRedImage.alpha -= Time.deltaTime / time;
+            yield return null;
+        }
+    }*/
+    
 
     private void UpdateHealthBar()
     {
         if (photonView.IsMine)
         {
-            healthBar.transform.GetComponent<Image>().fillAmount = currentHealth / healthPoints;
+            healthBar.value = currentHealth / healthPoints;
         }
     }
 
@@ -74,7 +102,19 @@ public class Shooting : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             GetComponent<Animator>().SetTrigger("isIdleDeath");
-            isDead = true;
+            GetComponent<PlayerMovementController>().enabled = false;
+
+            Invoke("LeaveRoom", 3f);
         }
+    }
+
+    private void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
     }
 }

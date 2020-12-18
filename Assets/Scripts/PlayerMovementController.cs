@@ -32,6 +32,7 @@ public class PlayerMovementController : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
+
         playerControlsUI.transform.Find("Sprint Button").GetComponent<Button>().onClick.AddListener(() => OnSprintButtonClicked());
 
         Move();

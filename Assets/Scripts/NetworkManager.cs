@@ -248,6 +248,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnLeftRoom();
 
+        ActivatePanel(gameOptionsPanel.name);
+
         foreach (GameObject playerGameObject in playerListGameObjects.Values)
         {
             Destroy(playerGameObject);
@@ -255,7 +257,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         playerListGameObjects.Clear();
         playerListGameObjects = null;
 
-        ActivatePanel(gameOptionsPanel.name);
     }
 
     #endregion
