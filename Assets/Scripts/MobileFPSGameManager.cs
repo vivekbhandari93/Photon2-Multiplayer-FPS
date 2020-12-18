@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class MobileFPSGameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject playerPrefab;
+    [SerializeField] List<Transform> spawnPoints;
 
     void Start()
     {
@@ -15,10 +16,9 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
         {
             if (playerPrefab)
             {
-                float randomPointPosX = Random.Range(-40f, 40f);
-                float randomPointPosZ = Random.Range(-40f, 40f);
+                int spawnPointIndex = Random.Range(0, 19);
 
-                GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(randomPointPosX, 80f, randomPointPosZ), Quaternion.identity);
+                GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
 
                 FindObjectOfType<Canvas>().transform.Find("Quit Button").GetComponent<Button>().onClick.AddListener(()=> OnQuitButtonClicked());
             }

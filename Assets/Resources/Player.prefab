@@ -1082,6 +1082,7 @@ GameObject:
   - component: {fileID: 1252978303929886657}
   - component: {fileID: 9021322061760454049}
   - component: {fileID: 6177864304238737836}
+  - component: {fileID: 2109931878095690036}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1339,6 +1340,21 @@ MonoBehaviour:
   healthPoints: 100
   currentHealth: 0
   hitVFX: {fileID: 6419178080126038289, guid: 7ea23caac7b45a04da2aa1cba78e3df8, type: 3}
+--- !u!114 &2109931878095690036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7751784660953797602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e08e5b51dfab54aaf02eff5482987e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoSlots:
+  - ammoType: 0
+    ammoAmount: 0
 --- !u!1 &8151689848020531151
 GameObject:
   m_ObjectHideFlags: 0

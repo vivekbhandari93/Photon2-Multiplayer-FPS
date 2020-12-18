@@ -19,6 +19,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     [Header("Particles VFX")]
     [SerializeField] ParticleSystem hitVFX;
 
+
     private void Start()
     {
         currentHealth = healthPoints;
