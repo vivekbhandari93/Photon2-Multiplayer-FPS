@@ -10,17 +10,17 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerPrefab;
     [SerializeField] List<Transform> spawnPoints;
 
+
     void Start()
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
             if (playerPrefab)
             {
-                int spawnPointIndex = Random.Range(0, 19);
+                int spawnPointIndex = Random.Range(0, spawnPoints.Count - 1);
 
-                GameObject playerInstance = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
-
-                FindObjectOfType<Canvas>().transform.Find("Quit Button").GetComponent<Button>().onClick.AddListener(()=> OnQuitButtonClicked());
+                PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[spawnPointIndex].transform.position, Quaternion.identity);
+                FindObjectOfType<Canvas>().transform.Find("Quit Button").GetComponent<Button>().onClick.AddListener(() => OnQuitButtonClicked());
             }
             else
             {
@@ -29,13 +29,8 @@ public class MobileFPSGameManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     private void OnQuitButtonClicked()
-    {
-        Invoke("LeaveRoom", 1f);
-    }
-
-
-    private void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
     }

@@ -57,4 +57,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
 
         playerControlsUIInstance.transform.Find("Info").GetComponent<TextMeshProUGUI>().text = "Player Alive: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
     }
+
+
+    
 }
