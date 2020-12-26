@@ -89,7 +89,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 
+        
+        
         public Vector2 joystickInputAxis = Vector2.zero;
+
 
         public Vector3 Velocity
         {
@@ -104,6 +107,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public bool Jumping
         {
             get { return m_Jumping; }
+            set { m_Jumping = value; }
         }
 
         public bool Running
@@ -116,6 +120,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	            return false;
 #endif
             }
+        }
+
+        public bool Jump
+        {
+            get { return m_Jump; }
+            set { m_Jump = value; }
         }
 
 
@@ -131,11 +141,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             RotateView();
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
-            {
-                m_Jump = true;
-            }
+            //if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+            //{
+            //    m_Jump = true;
+            //}
         }
+
 
 
         private void FixedUpdate()
@@ -161,7 +172,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (m_IsGrounded)
             {
-                //m_RigidBody.drag = 5f;
+                m_RigidBody.drag = 5f;
 
                 if (m_Jump)
                 {
@@ -178,7 +189,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
-                //m_RigidBody.drag = 0f;
+                m_RigidBody.drag = 0f;
                 if (m_PreviouslyGrounded && !m_Jumping)
                 {
                     StickToGroundHelper();

@@ -38,6 +38,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject roomListPrefab;
     [SerializeField] Transform contentInRoomListPanel;
 
+    [Header("Prossing Panel")]
+    [SerializeField] GameObject processingPanel;
+
 
     Dictionary<string, RoomInfo> cachedRoomList;
     Dictionary<string, GameObject> roomInstancesList;
@@ -47,7 +50,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     #region Unity Methods
 
-    void Start()
+    private void Awake()
+    {
+        ActivatePanel(processingPanel.name);
+    }
+
+    private void Start()
     {
         ActivatePanel(loginPanel.name);
         cachedRoomList = new Dictionary<string, RoomInfo>();
@@ -57,7 +65,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     
-    void Update()
+    private void Update()
     {
         connectionStatusText.text = "Connection Status: " + PhotonNetwork.NetworkClientState.ToString();
     }
@@ -75,6 +83,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             return; 
         }
 
+        ActivatePanel(processingPanel.name);
+
         PhotonNetwork.LocalPlayer.NickName = playerName;
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -88,10 +98,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void OnCreateRoomButtonClicked()
     {
+        ActivatePanel(processingPanel.name);
+
         string roomName = roomNameInput.text.Trim();
         if (string.IsNullOrEmpty(roomName))
         {
-            roomName = "Room " + Random.Range(1, 1000);
+            roomName = "Room " + Random.Range(1, 10000);
         }
 
         RoomOptions roomOptions = new RoomOptions();
@@ -111,31 +123,41 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void OnShowRoomListButtonClicked()
     {
+        ActivatePanel(processingPanel.name);
+
         if (!PhotonNetwork.InLobby)
         {
             PhotonNetwork.JoinLobby();
         }
+
         ActivatePanel(roomListPanel.name);
     }
 
 
     public void OnBackButtonClicked()
     {
+        ActivatePanel(processingPanel.name);
+
         if (PhotonNetwork.InLobby)
         {
             PhotonNetwork.LeaveLobby();
         }
+        
         ActivatePanel(gameOptionsPanel.name);
     }
 
     public void OnLeaveGameButtonClicked()
     {
+        ActivatePanel(processingPanel.name);
+
         PhotonNetwork.LeaveRoom();
     }
 
 
     public void OnStartGameButtonClicked()
     {
+        ActivatePanel(processingPanel.name);
+
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel(1);
@@ -145,6 +167,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Photon Callbacks
+
+    public override void OnConnected()
+    {
+        base.OnConnected();
+        ActivatePanel(processingPanel.name);
+    }
 
     public override void OnConnectedToMaster()
     {
@@ -271,6 +299,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         insideRoomPanel.SetActive(panelToActivate.Equals(insideRoomPanel.name));
         joinRandomRoomPanel.SetActive(panelToActivate.Equals(joinRandomRoomPanel.name));
         roomListPanel.SetActive(panelToActivate.Equals(roomListPanel.name));
+        processingPanel.SetActive(panelToActivate.Equals(processingPanel.name));
     }
 
     #endregion

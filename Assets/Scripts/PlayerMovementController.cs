@@ -18,23 +18,27 @@ public class PlayerMovementController : MonoBehaviourPunCallbacks
     Canvas playerControlsUI;
     bool isSprintButtonClicked = false;
 
+    Rigidbody mRigidbody;
+
     private void Start()
     {
         rigidbodyFirstPersonController = GetComponent<RigidbodyFirstPersonController>();
         animator = GetComponent<Animator>();
         fpsCamera = GetComponentInChildren<Camera>();
+        mRigidbody = GetComponent<Rigidbody>();
 
         if (photonView.IsMine)
         {
             playerControlsUI = FindObjectOfType<Canvas>();
         }
+
+
+        playerControlsUI.transform.Find("Sprint Button").GetComponent<Button>().onClick.AddListener(() => OnSprintButtonClicked());
+        playerControlsUI.transform.Find("Jump Button").GetComponent<Button>().onClick.AddListener(() => OnJumpButtonClicked());
     }
 
     private void FixedUpdate()
     {
-
-        playerControlsUI.transform.Find("Sprint Button").GetComponent<Button>().onClick.AddListener(() => OnSprintButtonClicked());
-
         Move();
         UpdateFpsCameraPosition();
 
@@ -67,11 +71,17 @@ public class PlayerMovementController : MonoBehaviourPunCallbacks
 
     private void UpdateFpsCameraPosition()
     {
-        fpsCamera.transform.localPosition = new Vector3(0f, joystick.Vertical * -0.15f, 0f );
+        fpsCamera.transform.localPosition = new Vector3(0f, joystick.Vertical * - 0.15f, 0f );
     }
 
     private void OnSprintButtonClicked()
     {
         isSprintButtonClicked = true;
+    }
+
+    private void OnJumpButtonClicked()
+    {
+        rigidbodyFirstPersonController.Jump = true;
+        animator.SetTrigger("isJump");
     }
 }

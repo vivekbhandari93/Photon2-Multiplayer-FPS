@@ -5,7 +5,6 @@ using Photon.Pun;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
